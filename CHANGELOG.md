@@ -1,6 +1,7 @@
 # Go Buildpack Changelog
 
 ## Unreleased
+* GOCACHE support
 
 ## v87 (2018-05-03)
 
