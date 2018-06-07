@@ -58,6 +58,29 @@ handleDefaultPkgSpec() {
     fi
 }
 
+installOracle() {
+  mkdir -p /opt/oracle
+  mkdir -p /opt/oracle/instantclient
+  chmod -R 777 /opt/oracle
+  curl http://buildpacks.teresa-apps.io/oracle/oracle-instantclient-full-12.1-linux.x64.tar.gz -L -s -o - | tar -xz -C /opt/oracle/instantclient
+  echo "export ORACLE_HOME=/opt/oracle/instantclient" >> $HOME/.profile
+  echo "export LD_LIBRARY_PATH=/opt/oracle/instantclient:\$LD_LIBRARY_PATH" >> $HOME/.profile
+  echo "export PKG_CONFIG_PATH=/opt/oracle/instantclient" >> $HOME/.profile
+  source $HOME/.profile
+  cat <<EOF > /opt/oracle/instantclient/oci8.pc
+  # Package Information for pkg-config
+  prefix=/opt/oracle/instantclient
+  libdir=\${prefix}
+  includedir=\${prefix}/sdk/include/
+  Name: OCI
+  Description: Oracle database engine
+  Version: 11.2
+  Libs: -L\${libdir} -lclntsh
+  Libs.private:
+  Cflags: -I\${includedir}
+  EOF
+}
+
 massagePkgSpecForVendor() {
     local t=""
     for pkg in $(echo $pkgs); do
@@ -374,6 +397,8 @@ fi
 reportVer "${ver}"
 
 ensureGo "${ver}"
+
+installOracle
 
 mkdir -p "${build}/bin"
 
