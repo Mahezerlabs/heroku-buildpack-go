@@ -59,13 +59,13 @@ handleDefaultPkgSpec() {
 }
 
 installOracle() {
-  mkdir -p $HOME/oracle
-  mkdir -p $HOME/oracle/instantclient
-  chmod -R 777 $HOME/oracle
-  curl http://buildpacks.teresa-apps.io/oracle/oracle-instantclient-full-12.1-linux.x64.tar.gz -L -s -o - | tar -xz -C $HOME/oracle/instantclient
-  echo "export ORACLE_HOME=$HOME/oracle/instantclient" >> $HOME/.profile
-  echo "export LD_LIBRARY_PATH=$HOME/oracle/instantclient:\$LD_LIBRARY_PATH" >> $HOME/.profile
-  echo "export PKG_CONFIG_PATH=$HOME/oracle/instantclient" >> $HOME/.profile
+  sudo mkdir -p /opt/oracle
+  sudo mkdir -p /opt/oracle/instantclient
+  sudo chmod -R 777 /opt/oracle
+  curl http://buildpacks.teresa-apps.io/oracle/oracle-instantclient-full-12.1-linux.x64.tar.gz -L -s -o - | tar -xz -C /opt/oracle/instantclient
+  echo "export ORACLE_HOME=/opt/oracle/instantclient" >> $HOME/.profile
+  echo "export LD_LIBRARY_PATH=/opt/oracle/instantclient:\$LD_LIBRARY_PATH" >> $HOME/.profile
+  echo "export PKG_CONFIG_PATH=/opt/oracle/instantclient" >> $HOME/.profile
   source $HOME/.profile
   echo "
   # Package Information for pkg-config\n
