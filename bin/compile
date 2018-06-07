@@ -67,18 +67,17 @@ installOracle() {
   echo "export LD_LIBRARY_PATH=/opt/oracle/instantclient:\$LD_LIBRARY_PATH" >> $HOME/.profile
   echo "export PKG_CONFIG_PATH=/opt/oracle/instantclient" >> $HOME/.profile
   source $HOME/.profile
-  cat <<EOF > /opt/oracle/instantclient/oci8.pc
-  # Package Information for pkg-config
-  prefix=/opt/oracle/instantclient
-  libdir=\${prefix}
-  includedir=\${prefix}/sdk/include/
-  Name: OCI
-  Description: Oracle database engine
-  Version: 11.2
-  Libs: -L\${libdir} -lclntsh
-  Libs.private:
-  Cflags: -I\${includedir}
-  EOF
+  echo "
+  # Package Information for pkg-config\n
+  prefix=/opt/oracle/instantclient\n
+  libdir=\${prefix}\n
+  includedir=\${prefix}/sdk/include/\n
+  Name: OCI\n
+  Description: Oracle database engine\n
+  Version: 11.2\n
+  Libs: -L\${libdir} -lclntsh\n
+  Libs.private:\n
+  Cflags: -I\${includedir}\n" > /opt/oracle/instantclient/oci8.pc
 }
 
 massagePkgSpecForVendor() {
